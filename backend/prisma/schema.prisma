@@ -1,0 +1,265 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//
+// ENUMS
+//
+
+enum Season {
+  KHARIF
+  RABI
+  ZAID
+}
+
+enum CropCategory {
+  CEREAL
+  PULSE
+  OILSEED
+  CASH_CROP
+  HORTICULTURE
+  PLANTATION
+}
+
+enum FarmingStatus {
+  PLANNED
+  SOWN
+  GROWING
+  HARVESTED
+  FAILED
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  STATE_ADMIN
+  DISTRICT_ADMIN
+  BLOCK_ADMIN
+}
+
+enum FarmIrrigationType {
+  RAINFED
+  CANAL
+  DRIP
+  TUBE_WELL
+  SPRINKLER
+}
+
+//
+// FARMER
+//
+
+model Farmer {
+  id                String   @id @default(uuid())
+
+  firstName         String
+  lastName          String
+
+  contactNumber     String   @unique
+  email             String?  @unique
+
+  joinedAt          DateTime @default(now())
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  farms             Farm[]
+
+  @@index([contactNumber])
+}
+
+//
+// FARM
+//
+
+model Farm {
+  id                    String   @id @default(uuid())
+
+  farmerId              String
+  farmer                Farmer  @relation(fields: [farmerId], references: [id])
+
+  farmName              String?
+
+  totalAreaAcres        Decimal  @db.Decimal(10, 2)
+
+  soilType              String
+
+  irrigationType        FarmIrrigationType
+
+  //
+  // Hierarchical Location
+  //
+
+  state                 String
+  district              String
+  block                 String
+  village               String
+
+  latitude              Decimal? @db.Decimal(10, 6)
+  longitude             Decimal? @db.Decimal(10, 6)
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  farmingRecords        FarmingRecord[]
+
+  @@index([state])
+  @@index([district])
+  @@index([block])
+  @@index([village])
+
+  @@index([state, district, block, village])
+}
+
+//
+// CROP
+//
+
+model Crop {
+  id                        String   @id @default(uuid())
+
+  name                      String
+  variety                   String
+
+  scientificName            String?
+
+  category                  CropCategory
+
+  season                    Season
+
+  expectedYieldPerAcre      Decimal @db.Decimal(10, 2)
+
+  harvestCycleDays          Int
+
+  waterRequirementMm        Decimal? @db.Decimal(10, 2)
+
+  soilSuitability           String?
+
+  description               String? @db.Text
+
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  farmingRecords            FarmingRecord[]
+
+  //
+  // Prevent duplicate crop varieties
+  //
+
+  @@unique([name, variety])
+
+  @@index([name])
+  @@index([category])
+  @@index([season])
+}
+
+//
+// FARMING RECORD
+//
+
+model FarmingRecord {
+  id                        String   @id @default(uuid())
+
+  //
+  // Relations
+  //
+
+  farmId                    String
+  farm                      Farm     @relation(fields: [farmId], references: [id])
+
+  cropId                    String
+  crop                      Crop     @relation(fields: [cropId], references: [id])
+
+  //
+  // Lifecycle
+  //
+
+  status                    FarmingStatus @default(PLANNED)
+
+  sowingDate                DateTime
+
+  predictedHarvestDate      DateTime
+
+  actualHarvestDate         DateTime?
+
+  //
+  // Yield Metrics
+  //
+
+  predictedQuantity         Decimal @db.Decimal(10, 2)
+
+  actualQuantity            Decimal? @db.Decimal(10, 2)
+
+  lossQuantity              Decimal? @db.Decimal(10, 2)
+
+  //
+  // AI / RAG Friendly Context
+  //
+
+  remarks                   String? @db.Text
+
+  lossReason                String? @db.Text
+
+  //
+  // Metadata
+  //
+
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  @@index([status])
+
+  @@index([sowingDate])
+
+  @@index([predictedHarvestDate])
+
+  @@index([farmId])
+
+  @@index([cropId])
+}
+
+//
+// ADMIN
+//
+
+model Admin {
+  id                    String    @id @default(uuid())
+
+  firstName             String
+  lastName              String
+
+  email                 String    @unique
+
+  passwordHash          String
+
+  role                  AdminRole @default(BLOCK_ADMIN)
+
+  //
+  // Scope-Based Access Control
+  // NULL => unrestricted
+  //
+
+  scopeState            String?
+
+  scopeDistrict         String?
+
+  scopeBlock            String?
+
+  isActive              Boolean   @default(true)
+
+  lastLoginAt           DateTime?
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([role])
+
+  @@index([scopeState])
+
+  @@index([scopeDistrict])
+
+  @@index([scopeBlock])
+}
