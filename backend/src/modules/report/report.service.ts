@@ -221,6 +221,12 @@ export const getCropYieldAnalytics = async (
 		whereClause.farm.block = filters.block;
 	}
 
+	if (filters.crop) {
+		whereClause.crop = {
+			name: filters.crop,
+		};
+	}
+
 	//
 	// Optional Season Filter
 	//

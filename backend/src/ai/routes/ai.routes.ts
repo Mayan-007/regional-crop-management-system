@@ -8,4 +8,6 @@ const router = Router();
 
 router.post("/chat", authenticate, aiController.chat);
 
+router.post("/chatAI", authenticate, aiController.aiChatController);
+
 export default router;

@@ -1,5 +1,9 @@
+import { extractEntities } from "../extractors/entity-extractor.service";
+
 export const mapPromptToTool = (message: string) => {
 	const normalized = message.toLowerCase();
+
+	const entities = extractEntities(message);
 
 	//
 	// Dashboard KPIs
@@ -9,7 +13,7 @@ export const mapPromptToTool = (message: string) => {
 		return {
 			tool: "get_dashboard_kpis",
 
-			params: {},
+			params: entities,
 		};
 	}
 
@@ -21,7 +25,7 @@ export const mapPromptToTool = (message: string) => {
 		return {
 			tool: "get_crop_yield_analytics",
 
-			params: {},
+			params: entities,
 		};
 	}
 
@@ -33,7 +37,7 @@ export const mapPromptToTool = (message: string) => {
 		return {
 			tool: "get_seasonal_analytics",
 
-			params: {},
+			params: entities,
 		};
 	}
 
@@ -45,7 +49,7 @@ export const mapPromptToTool = (message: string) => {
 		return {
 			tool: "get_loss_analysis",
 
-			params: {},
+			params: entities,
 		};
 	}
 
@@ -57,7 +61,7 @@ export const mapPromptToTool = (message: string) => {
 		return {
 			tool: "get_farmer_productivity",
 
-			params: {},
+			params: entities,
 		};
 	}
 
