@@ -10,16 +10,20 @@ import cropRoutes from "../modules/crop/crop.routes";
 
 import farmerRoutes from "../modules/farmer/farmer.routes";
 
-const router = Router();
+import farmingRecordRoutes from "../modules/farming-record/farming-record.routes";
 
-router.use("/auth", authRoutes);
+const router = Router();
 
 router.use("/admin", adminRoutes);
 
-router.use("/farms", farmRoutes);
+router.use("/auth", authRoutes);
 
 router.use("/crops", cropRoutes);
 
+router.use("/farms", farmRoutes);
+
 router.use("/farmers", farmerRoutes);
+
+router.use("/farming-records", farmingRecordRoutes);
 
 export default router;
