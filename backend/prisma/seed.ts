@@ -188,6 +188,8 @@ async function main() {
 
 			status: "HARVESTED",
 
+			harvestSeason: "RABI_2025",
+
 			sowingDate: new Date("2025-11-01"),
 
 			predictedHarvestDate: new Date("2026-03-01"),
@@ -213,6 +215,8 @@ async function main() {
 			cropId: cotton.id,
 
 			status: "GROWING",
+
+			harvestSeason: "KHARIF_2025",
 
 			sowingDate: new Date("2026-06-01"),
 
