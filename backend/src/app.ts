@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import routes from "./routes";
+import aiRoutes from "./ai/routes/ai.routes";
 
 const app = express();
 
@@ -16,5 +17,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api", routes);
+
+app.use("/api/ai", aiRoutes);
 
 export default app;
