@@ -179,6 +179,8 @@ model FarmingRecord {
 
   status                    FarmingStatus @default(PLANNED)
 
+  harvestSeason             String
+
   sowingDate                DateTime
 
   predictedHarvestDate      DateTime
