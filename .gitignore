@@ -5,6 +5,8 @@
 
 /backend/src/generated/prisma
 
+
+
 # Compiled output
 /dist
 /tmp
@@ -35,7 +37,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
+.angular
 .sass-cache/
 /connect.lock
 /coverage
