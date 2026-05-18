@@ -9,7 +9,7 @@ export const createFarmSchema = z.object({
 
 	soilType: z.string(),
 
-	irrigationMethod: z.string().optional(),
+	irrigationType: z.string().optional(),
 
 	state: z.string(),
 
