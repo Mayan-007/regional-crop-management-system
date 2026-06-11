@@ -1,23 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
-import { MATERIAL_IMPORTS } from '../../shared/ui/material.imports';
-
-import { Sidebar } from '../sidebar/sidebar';
-import { Navbar } from '../navbar/navbar';
+import { Component, signal } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-shell',
-  standalone: true,
-
-  imports: [
-    RouterOutlet,
-    Sidebar,
-    Navbar,
-    ...MATERIAL_IMPORTS
-  ],
-
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './shell.html',
-  styleUrls: ['./shell.scss']
+  styleUrl: './shell.scss',
 })
-export class Shell {}
+export class Shell {
+  isSidebarOpen = signal(false);
+
+  toggleSidebar() {
+    this.isSidebarOpen.update((open) => !open);
+  }
+}

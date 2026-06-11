@@ -1,0 +1,49 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "backend",
+        "command": "npm",
+        "type": "process",
+        "isBackground": true,
+        "args": [
+          "run",
+          "dev"
+        ],
+        "group": {
+          "kind": "build"
+        },
+        "options": {
+          "cwd": "${workspaceFolder}/backend"
+        }
+      },
+      {
+        "label": "frontend",
+        "command": "npm",
+        "type": "process",
+        "isBackground": true,
+        "args": [
+          "run",
+          "start"
+        ],
+        "group": {
+          "kind": "build"
+        },
+        "options": {
+          "cwd": "${workspaceFolder}/client"
+        }
+      },
+      {
+        "label": "Run Both (Fullstack)",
+        "type": "shell",
+        "dependsOn": [
+          "backend",
+          "frontend"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+}

@@ -1,1 +1,16 @@
-<p>login-page works!</p>
+<div class="login-container">
+  <mat-card class="login-card">
+    <h1>Regional Crop Management System</h1>
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+      <button matButton="elevated" color="primary" type="submit">Login</button>
+    </form>
+  </mat-card>
+</div>

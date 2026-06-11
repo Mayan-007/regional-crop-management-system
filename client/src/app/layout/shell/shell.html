@@ -1,21 +1,49 @@
-<mat-sidenav-container class="shell-container">
+<div class="layout-container">
+    <aside class="sidebar" [class.collapsed]="!isSidebarOpen()">
+        <div class="sidebar-header">
+            @if (isSidebarOpen()) {
+                <h2 class="app-title">RCM System</h2>
+            }
+            <button (click)="toggleSidebar()" class="toggle-btn" aria-label="Toggle Menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
 
-    <mat-sidenav mode="side" opened class="sidebar">
+        <nav class="sidebar-nav">
+            <a routerLink="/dashboard" routerLinkActive="active" title="Dashboard">
+                <mat-icon>home</mat-icon>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <a routerLink="/crops" routerLinkActive="active" title="Crops">
+                <mat-icon>eco</mat-icon>
+                <span class="nav-text">Crops</span>
+            </a>
+            <a routerLink="/farmers" routerLinkActive="active" title="Farmers">
+                <mat-icon>groups</mat-icon>
+                <span class="nav-text">Farmers</span>
+            </a>
+            <a routerLink="/farms" routerLinkActive="active" title="Farms">
+                <mat-icon>agriculture</mat-icon>
+                <span class="nav-text">Farms</span>
+            </a>
+            <a routerLink="/profile" routerLinkActive="active" title="Profile">
+                <mat-icon>account_circle</mat-icon>
+                <span class="nav-text">Profile</span>
+            </a>
+            <a routerLink="/logout" routerLinkActive="active" title="Logout">
+                <mat-icon>logout</mat-icon>
+                <span class="nav-text">Logout</span>
+            </a>
+        </nav>
+    </aside>
 
-        <app-sidebar />
+    <main class="main-content">
+        <header class="topbar">
+            <span>Top Navigation / User Profile here</span>
+        </header>
 
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-
-        <app-navbar />
-
-        <main class="content">
-
-            <router-outlet />
-
-        </main>
-
-    </mat-sidenav-content>
-
-</mat-sidenav-container>
+        <div class="content-wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>

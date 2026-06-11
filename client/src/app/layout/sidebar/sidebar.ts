@@ -1,38 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
 import { MATERIAL_IMPORTS } from '../../shared/ui/material.imports';
+import { Store } from '../../core/auth/store';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
-
-  imports: [
-    RouterLink,
-    ...MATERIAL_IMPORTS
-  ],
-
-  templateUrl: './sidebar.html'
+  imports: [RouterLink, ...MATERIAL_IMPORTS],
+  templateUrl: './sidebar.html',
+  styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  private readonly store = inject(Store);
 
-  menuItems = [
+  readonly role = this.store.role;
+
+  readonly menuItems = [
     {
       label: 'Dashboard',
       icon: 'dashboard',
-      route: '/dashboard'
+      route: '/dashboard',
     },
 
     {
-      label: 'Crops',
-      icon: 'grass',
-      route: '/crops'
-    },
+      label: 'Reports',
+      icon: 'analytics',
+      route: '/reports',
 
-    {
-      label: 'Farmers',
-      icon: 'people',
-      route: '/farmers'
-    }
+      roles: ['SUPER_ADMIN'],
+    },
   ];
 }
